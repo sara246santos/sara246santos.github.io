@@ -15,9 +15,9 @@ en: &DEFAULT_EN
       section: research
     - title: "CV"
       section: cv
-    - title: "About"
+    - title: "Figure templates"
       section: about
-    - title: "Timeline"
+    - title: "Data repositories"
       section: timeline
     - title: "Team"
       section: team
