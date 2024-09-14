@@ -11,8 +11,6 @@
 # -----------------
 en: &DEFAULT_EN
   header:
-    title: Welcome!
-    text: It's Nice To Meet You
     button: CV
     buttonlink: "assets/img/Sara_s_CV.pdf"
 
