@@ -14,7 +14,7 @@ en: &DEFAULT_EN
     title: Welcome!
     text: It's Nice To Meet You
     button: CV
-    buttonlink: "#cv"
+    buttonlink: "assets/img/Sara_s_CV.pdf"
 
   services:
     title: "Research"
