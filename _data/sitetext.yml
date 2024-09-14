@@ -11,6 +11,8 @@
 # -----------------
 en: &DEFAULT_EN
   header:
+    title: 
+    text:  
     button: CV
     buttonlink: "assets/img/Sara_s_CV.pdf"
 
