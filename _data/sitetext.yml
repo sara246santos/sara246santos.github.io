@@ -11,8 +11,8 @@
 # -----------------
 en: &DEFAULT_EN
   header:
-    title: 
-    text:  
+    title: Sara Oliveira Santos
+    text: Something something
     button: CV
     buttonlink: "assets/img/Sara_s_CV.pdf"
 
