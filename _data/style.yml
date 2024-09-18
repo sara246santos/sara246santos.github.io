@@ -1,10 +1,32 @@
-#Color Customization
-#highlight: "#54bfff"
-#white: "#FF0000"
-#black: "#000"
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Name's Website</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header with Video -->
+    <header>
+        <video autoplay muted loop id="header-video">
+            <source src="assets/img/Shorther_vid_3mussel.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <nav>
+            <ul>
+                <li><a href="#about">About</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
 
-#Image Customization
-header-image: "../img/Shorther_vid_3mussel.mp4"
+    <!-- Other content -->
+    <!-- About, Projects, Contact sections as before -->
 
-<img width=”250" height=”400" src=”assets/img/Shorther_vid_3mussel.mp4" />
-contact-image: "../img/map-image.png"
+    <footer>
+        <p>&copy; 2024 Your Name</p>
+    </footer>
+</body>
+</html>
