@@ -80,3 +80,23 @@
   </header>
   {% endif %}
   <!-- End Header -->
+
+  <!-- Video Background -->
+<div class="video-background">
+  <video autoplay muted loop class="video-fill">
+    <source src="{{ site.data.style.header-video }}" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+</div>
+<!-- End Video Background -->
+
+<!-- Header -->
+<header class="masthead">
+  <div class="container">
+    <div class="intro-text">
+      <div class="intro-lead-in">{{ site.data.sitetext.header.title | markdownify }}</div>
+      <div class="intro-heading text-uppercase">{{ site.data.sitetext.header.text | markdownify }}</div>
+      <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="{{ site.data.sitetext.header.buttonlink }}">{{ site.data.sitetext.header.button }}</a>
+    </div>
+  </div>
+</header>
