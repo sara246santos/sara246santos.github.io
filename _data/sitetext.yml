@@ -123,12 +123,12 @@ en: &DEFAULT_EN
     submit: "Send Message"
 
   footer:
-    legal: "Privacy Policy"
-    social:
-      - url: https://twitter.com
-        icon: "fab fa-twitter"
-      - url: https://bluesky.com
-      icon: <i class="fa-brands fa-bluesky"></i>
+  social:
+    - url: https://twitter.com
+      icon: "fab fa-twitter"
+    - url: https://bluesky.com
+      icon: "fab fa-bluesky"
+
 
 en-US:
   <<: *DEFAULT_EN
