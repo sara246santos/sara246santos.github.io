@@ -16,9 +16,9 @@ en: &DEFAULT_EN
     - title: "CV"
       section: cv
     - title: "Figure templates"
-      section: about
+      section: templates
     - title: "Data repositories"
-      section: timeline
+      section: repositories
     - title: "Beyond the science"
       section: beyond
     - title: "Contact"
