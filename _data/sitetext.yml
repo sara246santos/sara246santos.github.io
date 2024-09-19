@@ -12,9 +12,8 @@
 en: &DEFAULT_EN
   header:
     title: Sara Oliveira Santos
-    text: Something something
-    button: CV
-    buttonlink: "assets/img/Sara_s_CV.pdf"
+    cvlink: "Download my CV"
+    cvlinkurl: "assets/img/Sara_s_CV.pdf"
 
   research:
     title: "Research"
