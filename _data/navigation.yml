@@ -11,10 +11,10 @@
 # -----------------
 en: &DEFAULT_EN
   nav:
+    - title: "See CV"
+      section: cv
     - title: "Research"
       section: research
-    - title: "CV"
-      section: cv
     - title: "Figure templates"
       section: templates
     - title: "Data repositories"
