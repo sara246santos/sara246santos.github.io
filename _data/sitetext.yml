@@ -12,6 +12,9 @@
 en: &DEFAULT_EN
   header:
     title: Sara Oliveira Santos
+    text: Biological Fluid Dynamics & Bio-inspired Robotics
+    button: Learn More
+    buttonlink: "#about"
     cvlink: "Download my CV"
     cvlinkurl: "assets/img/Sara_s_CV.pdf"
 
