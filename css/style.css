@@ -307,11 +307,11 @@ body {
 }
 
 .pdf-viewer-desktop {
-    display: block;
+    display: block !important;
 }
 
 .pdf-viewer-mobile {
-    display: none;
+    display: none !important;
 }
 
 .mobile-cv-prompt {
@@ -506,11 +506,11 @@ body {
     }
 
     .pdf-viewer-desktop {
-        display: none;
+        display: none !important;
     }
 
     .pdf-viewer-mobile {
-        display: block;
+        display: block !important;
     }
 
     .pdf-viewer-mobile iframe {
@@ -518,7 +518,7 @@ body {
     }
 
     .mobile-cv-prompt {
-        display: block;
+        display: block !important;
     }
 
     /* Contact */
