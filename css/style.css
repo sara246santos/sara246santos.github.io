@@ -280,6 +280,13 @@ body {
     text-decoration: underline;
 }
 
+.publication .note {
+    color: #888;
+    font-size: 0.95rem;
+    font-style: italic;
+    margin-top: 0.5rem;
+}
+
 /* CV Section */
 .download-link {
     color: #007bff;
