@@ -52,7 +52,7 @@
       width: 100%;
       min-height: 100vh;
       overflow: hidden;
-      background-color: #000;
+      background-color: #000 !important;
     }
     .video-header video {
       position: absolute;
@@ -64,11 +64,13 @@
       height: auto;
       transform: translate(-50%, -50%);
       z-index: 0;
+      object-fit: cover;
     }
     .video-header .masthead {
       position: relative;
       z-index: 1;
-      background: transparent;
+      background-image: none !important;
+      background: transparent !important;
       min-height: 100vh;
       display: flex;
       align-items: center;
@@ -77,7 +79,7 @@
 
   <div class="video-header">
     <video autoplay muted loop playsinline>
-      <source src="{{ site.data.style.header-video }}" type="video/mp4">
+      <source src="/{{ site.data.style.header-video }}" type="video/mp4">
       Your browser does not support the video tag.
     </video>
 
