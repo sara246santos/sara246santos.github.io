@@ -47,4 +47,22 @@ document.addEventListener('DOMContentLoaded', function() {
         section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
         observer.observe(section);
     });
+
+    // Force video playback on mobile
+    const video = document.querySelector('.hero-video');
+    if (video) {
+        // Try to play immediately
+        video.play().catch(function(error) {
+            console.log('Autoplay prevented:', error);
+        });
+
+        // Also try to play on any user interaction
+        document.addEventListener('touchstart', function() {
+            video.play();
+        }, { once: true });
+
+        document.addEventListener('click', function() {
+            video.play();
+        }, { once: true });
+    }
 });
