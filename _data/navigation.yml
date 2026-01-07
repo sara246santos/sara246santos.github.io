@@ -11,16 +11,16 @@
 # -----------------
 en: &DEFAULT_EN
   nav:
-    - title: "See CV"
-      section: cv
+    - title: "About"
+      section: about
     - title: "Research"
       section: research
-    - title: "Figure templates"
-      section: templates
-    - title: "Data repositories"
+    - title: "Publications"
+      section: publications
+    - title: "Data & Code"
       section: repositories
-    - title: "Beyond the science"
-      section: beyond
+    - title: "CV"
+      section: cv
     - title: "Contact"
       section: contact
 en-US:

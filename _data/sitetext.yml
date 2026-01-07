@@ -35,6 +35,22 @@ en: &DEFAULT_EN
     section: assets/img/Sara_s_CV.pdf
     closebutton: "Close Project"
 
+  publications:
+    title: "Publications"
+    text: "Peer-reviewed publications and conference presentations"
+    section: publications
+    list:
+      - title: "Your publication title here"
+        authors: "Author 1, Author 2, Author 3"
+        venue: "Journal Name or Conference"
+        year: "2024"
+        link: "https://doi.org/your-doi-here"
+      - title: "Another publication title"
+        authors: "Author list"
+        venue: "Journal or Conference Name"
+        year: "2023"
+        link: ""
+
   templates:
     title: "Figure templates"
     text: "Templates"
@@ -67,47 +83,16 @@ en: &DEFAULT_EN
     end: "Be Part <br> of Our <br> Story!"
 
   repositories:
-    title: "Data repositories"
-    text: "our story"
-    body: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut eaque, laboriosam veritatis, quos non quis ad perspiciatis, totam corporis ea, alias ut unde. **Markdown** supported."
+    title: "Data & Code"
+    text: "Open science contributions"
+    body: "Links to data repositories, code, figure templates, and other reproducible research materials. **Markdown** supported - add your GitHub repos, Zenodo datasets, and other resources here."
     section: repositories
 
-  beyond:
-    title: "OUR AMAZING TEAM"
-    text: "Lorem ipsum dolor sit amet consectetur."
-    subtext: Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut eaque, laboriosam veritatis, quos non quis ad perspiciatis, totam corporis ea, alias ut unde. **Markdown** supported.
-    section: beyond
-    people:
-      - name: "Kay Garland"
-        role: "Lead Designer"
-        image: assets/img/team/500x500.jpg
-        social:
-          - url: https://twitter.com
-            icon: fab fa-twitter
-          - url: https://facebook.com
-            icon: fab fa-facebook-f
-          - url: https://linkedin.com
-            icon: fab fa-linkedin-in
-      - name: "Larry Parker"
-        role: "Lead Marketer"
-        image: assets/img/team/2.jpg
-        social:
-          - url: https://twitter.com
-            icon: fab fa-twitter
-          - url: https://facebook.com
-            icon: fab fa-facebook-f
-          - url: https://linkedin.com
-            icon: fab fa-linkedin-in
-      - name: "Diana Perterson"
-        role: "Lead Developer"
-        image: shrimp_labeled.png
-        social:
-          - url: https://twitter.com
-            icon: fab fa-twitter
-          - url: https://facebook.com
-            icon: fab fa-facebook-f
-          - url: https://linkedin.com
-            icon: fab fa-linkedin-in
+  about:
+    title: "About Me"
+    text: ""
+    body: "I am a biological fluid dynamicist and bio-inspired roboticist. My research focuses on understanding how small marine organisms interact with their fluid environment and applying these principles to robotic systems. **Add your bio here - supports Markdown formatting.**"
+    section: about
 
   contact:
     title: "Contact Me"

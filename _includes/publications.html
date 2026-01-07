@@ -1,0 +1,53 @@
+<!-- Publications -->
+{% if site.locale and site.locale != "" and site.locale != nil %}
+<section class="page-section" id="{{ site.data.sitetext[site.locale].publications.section | default: "publications" }}">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 text-center">
+        <h2 class="section-heading text-uppercase">{{ site.data.sitetext[site.locale].publications.title | default: "Publications" }}</h2>
+        <h3 class="section-subheading text-muted">{{ site.data.sitetext[site.locale].publications.text | default: "" }}</h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-10 mx-auto">
+        {% for pub in site.data.sitetext[site.locale].publications.list %}
+        <div class="publication-item mb-4">
+          <h5>{{ pub.title }}</h5>
+          <p class="text-muted mb-1">{{ pub.authors }}</p>
+          <p class="mb-1"><em>{{ pub.venue }}</em> {% if pub.year %}({{ pub.year }}){% endif %}</p>
+          {% if pub.link %}
+          <p><a href="{{ pub.link }}" target="_blank"><i class="fas fa-external-link-alt"></i> View Publication</a></p>
+          {% endif %}
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+{% else %}
+<section class="page-section" id="{{ site.data.sitetext.publications.section | default: "publications" }}">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 text-center">
+        <h2 class="section-heading text-uppercase">{{ site.data.sitetext.publications.title | default: "Publications" }}</h2>
+        <h3 class="section-subheading text-muted">{{ site.data.sitetext.publications.text | default: "" }}</h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-10 mx-auto">
+        {% for pub in site.data.sitetext.publications.list %}
+        <div class="publication-item mb-4">
+          <h5>{{ pub.title }}</h5>
+          <p class="text-muted mb-1">{{ pub.authors }}</p>
+          <p class="mb-1"><em>{{ pub.venue }}</em> {% if pub.year %}({{ pub.year }}){% endif %}</p>
+          {% if pub.link %}
+          <p><a href="{{ pub.link }}" target="_blank"><i class="fas fa-external-link-alt"></i> View Publication</a></p>
+          {% endif %}
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}
+<!-- End Publications -->
