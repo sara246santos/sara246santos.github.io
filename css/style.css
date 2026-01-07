@@ -304,6 +304,7 @@ body {
     width: 100%;
     height: 1200px;
     border: none;
+    overflow: auto;
 }
 
 .pdf-viewer-desktop {
@@ -514,7 +515,9 @@ body {
     }
 
     .pdf-viewer-mobile iframe {
-        height: 500px;
+        height: 600px;
+        overflow: auto;
+        -webkit-overflow-scrolling: touch;
     }
 
     .mobile-cv-prompt {
