@@ -316,6 +316,33 @@ body {
     text-decoration: underline;
 }
 
+/* Research Page Videos */
+.video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.video-container {
+    margin: 2rem 0;
+}
+
+.research-video {
+    width: 100%;
+    max-width: 800px;
+    border-radius: 8px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+}
+
+.video-caption {
+    text-align: center;
+    color: #666;
+    font-size: 0.95rem;
+    margin-top: 0.5rem;
+    font-style: italic;
+}
+
 /* Publications Section */
 .publications-list {
     max-width: 800px;
