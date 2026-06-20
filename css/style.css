@@ -530,6 +530,10 @@ body {
     background: #555;
 }
 
+.social-links a i {
+    margin-right: 0.5rem;
+}
+
 /* Footer */
 .footer {
     background: #222;
