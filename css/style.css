@@ -164,6 +164,7 @@ body {
 .hero-social a {
     color: #fff;
     font-size: 3.6rem;
+    text-decoration: none;
     display: inline-flex;
     align-items: center;
     justify-content: center;
