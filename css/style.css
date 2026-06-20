@@ -436,6 +436,60 @@ body {
     margin-top: 0.5rem;
 }
 
+/* In the News Section */
+.news-list {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.news-item {
+    display: flex;
+    align-items: baseline;
+    gap: 1.25rem;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid #e0e0e0;
+    text-decoration: none;
+    color: inherit;
+}
+
+.news-item:last-child {
+    border-bottom: none;
+}
+
+.news-outlet {
+    flex: 0 0 auto;
+    min-width: 180px;
+    font-weight: 700;
+    color: #222;
+}
+
+.news-headline {
+    flex: 1 1 auto;
+    color: #444;
+}
+
+.news-item:hover .news-headline {
+    color: #007bff;
+    text-decoration: underline;
+}
+
+.news-year {
+    flex: 0 0 auto;
+    color: #888;
+    font-size: 0.95rem;
+}
+
+@media (max-width: 768px) {
+    .news-item {
+        flex-direction: column;
+        gap: 0.3rem;
+    }
+
+    .news-outlet {
+        min-width: 0;
+    }
+}
+
 /* CV Section */
 .download-link {
     color: #007bff;
