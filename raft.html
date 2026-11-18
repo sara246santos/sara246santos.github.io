@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Raft Control</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0b1d24; --panel: #12303a; --line: #1f4a57; --fg: #e6f2f4; --muted: #8fb2ba;
+    --accent: #c9541f; --accent-soft: #e98a5b; --ok: #4fc3a1; --stop: #d93a2b; --stop-dark: #a8261a;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--bg); color: var(--fg); }
+  body {
+    font-family: "Space Grotesk", -apple-system, system-ui, sans-serif;
+    min-height: 100vh;
+    padding-top: max(16px, env(safe-area-inset-top, 0px));
+    padding-bottom: max(20px, env(safe-area-inset-bottom, 0px));
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    -webkit-user-select: none; user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  main { max-width: 440px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
+  header { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  h1 { font-size: 1.35rem; margin: 0; letter-spacing: 0.02em; }
+  .status { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; color: var(--muted); }
+  .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--muted); }
+  .status.on .dot { background: var(--ok); box-shadow: 0 0 10px var(--ok); }
+  .status.on { color: var(--ok); }
+  .status.lost .dot { background: var(--stop); }
+  .status.lost { color: var(--accent-soft); }
+
+  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 18px; padding: 18px; }
+  .gauge { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); }
+  .power { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 4.2rem; font-weight: 700; line-height: 1; }
+  .power small { font-size: 1.6rem; color: var(--muted); }
+  .sub { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 0.9rem; color: var(--muted); }
+  svg.crank { width: 92px; height: 92px; margin: 6px 0 2px; }
+
+  .slider-row { display: flex; flex-direction: column; gap: 10px; }
+  .slider-head { display: flex; justify-content: space-between; align-items: baseline; }
+  .target { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 1.4rem; font-weight: 700; color: var(--accent-soft); }
+  input[type=range] { -webkit-appearance: none; appearance: none; width: 100%; height: 44px; background: transparent; }
+  input[type=range]::-webkit-slider-runnable-track { height: 10px; border-radius: 5px; background: linear-gradient(90deg, var(--accent) var(--fill, 0%), var(--line) var(--fill, 0%)); }
+  input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 34px; height: 34px; margin-top: -12px; border-radius: 50%; background: var(--fg); border: 4px solid var(--accent); }
+  .ticks { display: flex; justify-content: space-between; font-family: "JetBrains Mono", monospace; font-size: 0.75rem; color: var(--muted); padding: 0 4px; }
+
+  .presets { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+  button { font: inherit; color: inherit; border: none; cursor: pointer; touch-action: manipulation; }
+  .presets button { background: var(--bg); border: 1px solid var(--line); border-radius: 12px; padding: 14px 0; font-family: "JetBrains Mono", monospace; font-weight: 700; font-size: 1rem; }
+  .presets button:active { background: var(--line); }
+  .go { background: var(--accent); border-radius: 14px; padding: 16px; font-weight: 700; font-size: 1.1rem; width: 100%; }
+  .go:active { background: var(--accent-soft); }
+
+  .stop { background: var(--stop); border-radius: 22px; padding: 26px 16px; font-size: 1.8rem; font-weight: 700; letter-spacing: 0.12em; width: 100%; box-shadow: 0 6px 0 var(--stop-dark); }
+  .stop:active { transform: translateY(4px); box-shadow: 0 2px 0 var(--stop-dark); }
+
+  .connect { background: var(--fg); color: var(--bg); border-radius: 14px; padding: 16px; font-weight: 700; font-size: 1.1rem; width: 100%; }
+  .disabled { opacity: 0.35; pointer-events: none; }
+  .msg { font-size: 0.9rem; color: var(--muted); line-height: 1.45; min-height: 1.3em; text-align: center; }
+  .msg.warn { color: var(--accent-soft); }
+  footer { font-size: 0.78rem; color: var(--muted); line-height: 1.5; text-align: center; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Raft Control</h1>
+    <div class="status" id="status"><span class="dot"></span><span id="statusText">not connected</span></div>
+  </header>
+
+  <button class="connect" id="connectBtn">Connect to raft</button>
+
+  <section class="panel gauge">
+    <svg class="crank" viewBox="-50 -50 100 100" aria-hidden="true">
+      <circle r="40" fill="none" stroke="#1f4a57" stroke-width="6"/>
+      <g id="crankArm"><line x1="0" y1="0" x2="26" y2="0" stroke="#c9541f" stroke-width="7" stroke-linecap="round"/>
+      <circle cx="26" cy="0" r="7" fill="#e6f2f4"/></g>
+      <circle r="6" fill="#e6f2f4"/>
+    </svg>
+    <span class="label">Motor power</span>
+    <div class="power"><span id="powerNow">0</span><small>%</small></div>
+    <div class="sub" id="runTime">off</div>
+  </section>
+
+  <section class="panel slider-row" id="controls">
+    <div class="slider-head"><span class="label">Set power</span><span class="target"><span id="targetVal">20</span>%</span></div>
+    <input type="range" id="slider" min="0" max="60" step="1" value="20">
+    <div class="ticks"><span>0</span><span>15</span><span>30</span><span>45</span><span>60</span></div>
+    <div class="presets">
+      <button data-p="10">10</button><button data-p="15">15</button><button data-p="20">20</button><button data-p="30">30</button><button data-p="40">40</button>
+    </div>
+    <button class="go" id="goBtn">Run at 20%</button>
+  </section>
+
+  <button class="stop" id="stopBtn">STOP</button>
+
+  <div class="msg" id="msg">Open this page in the Bluefy browser, then tap Connect.</div>
+
+  <footer>Keep this screen open while the raft runs. If the phone locks, leaves the page or goes out of range, the raft stops by itself within about 1 to 2 s. It also stops after 20 minutes.</footer>
+</main>
+
+<script>
+const SERVICE = '6b1e0001-3c2a-4f5e-9a51-7a0f2d3c4b10';
+const POWER   = '6b1e0002-3c2a-4f5e-9a51-7a0f2d3c4b10';
+const ALIVE   = '6b1e0003-3c2a-4f5e-9a51-7a0f2d3c4b10';
+const MAX_RUN_S = 20 * 60;
+
+const $ = id => document.getElementById(id);
+const enc = new TextEncoder(), dec = new TextDecoder();
+let device = null, powerChar = null, aliveChar = null;
+let busy = Promise.resolve();          // Bluetooth allows one operation at a time: queue them
+let pingTimer = null, pinging = false;
+let power = 0, runStart = null, angle = 0, lastFrame = performance.now();
+let wakeLock = null;
+
+function setStatus(kind, text) {
+  $('status').className = 'status ' + kind;
+  $('statusText').textContent = text;
+}
+function say(text, warn) { $('msg').textContent = text; $('msg').className = 'msg' + (warn ? ' warn' : ''); }
+function setConnectedUI(on) {
+  $('connectBtn').hidden = on;
+  $('controls').classList.toggle('disabled', !on);
+  $('stopBtn').classList.toggle('disabled', !on);
+}
+
+function queue(task) {
+  const run = busy.then(task, task);
+  busy = run.catch(() => {});
+  return run;
+}
+async function write(ch, text, noResponse) {
+  const data = enc.encode(text);
+  if (noResponse && ch.writeValueWithoutResponse) return ch.writeValueWithoutResponse(data);
+  if (ch.writeValueWithResponse) return ch.writeValueWithResponse(data);
+  return ch.writeValue(data);
+}
+
+function showPower(p) {
+  if (p > 0 && power === 0) runStart = Date.now();
+  if (p === 0) runStart = null;
+  power = p;
+  $('powerNow').textContent = p;
+}
+
+async function sendPower(p) {
+  if (!powerChar) return;
+  try {
+    await queue(() => write(powerChar, String(p)));
+    say(p === 0 ? 'Stopped.' : 'Running at ' + p + '%.');
+  } catch (e) { say('Could not send: ' + e.message, true); }
+}
+
+async function connect() {
+  if (!navigator.bluetooth) {
+    say('This browser has no Bluetooth. On iPhone, open this page in the Bluefy app.', true);
+    return;
+  }
+  try {
+    say('Choose "Raft" from the list...');
+    device = await navigator.bluetooth.requestDevice({ filters: [{ services: [SERVICE] }, { name: 'Raft' }], optionalServices: [SERVICE] });
+    device.addEventListener('gattserverdisconnected', onLost);
+    setStatus('', 'connecting...');
+    const server = await device.gatt.connect();
+    const service = await server.getPrimaryService(SERVICE);
+    powerChar = await service.getCharacteristic(POWER);
+    aliveChar = await service.getCharacteristic(ALIVE);
+    await powerChar.startNotifications();
+    powerChar.addEventListener('characteristicvaluechanged', e => showPower(parseInt(dec.decode(e.target.value)) || 0));
+    showPower(parseInt(dec.decode(await powerChar.readValue())) || 0);
+    pingTimer = setInterval(ping, 250);
+    setStatus('on', 'connected');
+    setConnectedUI(true);
+    say('Connected. Pick a power and tap Run.');
+    try { wakeLock = await navigator.wakeLock?.request('screen'); } catch (e) {}
+  } catch (e) {
+    setStatus('', 'not connected');
+    say(e.name === 'NotFoundError' ? 'No raft chosen. Is it switched on and nearby?' : 'Could not connect: ' + e.message, true);
+  }
+}
+
+async function ping() {
+  if (!aliveChar || pinging) return;     // skip a beat rather than pile up
+  pinging = true;
+  try { await queue(() => write(aliveChar, '1', true)); } catch (e) {}
+  pinging = false;
+}
+
+function onLost() {
+  clearInterval(pingTimer); pingTimer = null;
+  powerChar = aliveChar = null;
+  showPower(0);
+  setStatus('lost', 'connection lost');
+  setConnectedUI(false);
+  $('connectBtn').textContent = 'Reconnect';
+  say('Connection lost: the raft has stopped its motor.', true);
+  try { wakeLock?.release(); } catch (e) {}
+}
+
+function updateTarget() {
+  const v = +$('slider').value;
+  $('targetVal').textContent = v;
+  $('slider').style.setProperty('--fill', (v / 60 * 100) + '%');
+  $('goBtn').textContent = v === 0 ? 'Set to 0 (stop)' : 'Run at ' + v + '%';
+}
+
+$('connectBtn').addEventListener('click', connect);
+$('slider').addEventListener('input', updateTarget);
+$('goBtn').addEventListener('click', () => sendPower(+$('slider').value));
+$('stopBtn').addEventListener('click', () => sendPower(0));
+document.querySelectorAll('.presets button').forEach(b => b.addEventListener('click', () => {
+  $('slider').value = b.dataset.p; updateTarget();
+}));
+
+// spinning crank and run timer (the crank speed is only a picture, not measured)
+function frame(t) {
+  const dt = (t - lastFrame) / 1000; lastFrame = t;
+  angle = (angle + power * 12 * dt) % 360;
+  $('crankArm').setAttribute('transform', 'rotate(' + angle.toFixed(1) + ')');
+  if (runStart) {
+    const s = Math.floor((Date.now() - runStart) / 1000), left = Math.max(0, MAX_RUN_S - s);
+    const mmss = x => Math.floor(x / 60) + ':' + String(x % 60).padStart(2, '0');
+    $('runTime').textContent = 'running ' + mmss(s) + ' · auto-stop in ' + mmss(left);
+  } else $('runTime').textContent = 'off';
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+updateTarget();
+setConnectedUI(false);
+</script>
+</body>
+</html>
